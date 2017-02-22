@@ -57,7 +57,7 @@ $(document).ready(function() {
   });
 
   function showProblem() {
-    termA = getRandomInt(0, 20);
+    termA = getRandomInt(1, 20);
     termB = getRandomInt(0, 20 - termA);
     $("#termA").text(termA);
     $("#termB").text(termB);
@@ -71,7 +71,7 @@ $(document).ready(function() {
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min;
+    return Math.floor(Math.random() * (max - min) + 1) + min;
   }
 
   function makeButton(val) {
