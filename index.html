@@ -18,16 +18,21 @@
 .correct {
   color: green;
 }
+#answerInput {
+  font-size: 1em;
+}
 </style>
 </head>
 <body>
+<form id="problemForm" name="problemForm">
 <div id="problem">
   <span id="termA"><i>a</i></span>
   +
   <span id="termB"><i>b</i></span>
   =
-  <span id="answer"><i>__</i></span>
+  <span id="answer"><input autofocus autocomplete="off" id="answerInput" type="text" name="answerInput" size="3"></span>
 </div>
+</form>
 <br/>
 <div id="responses">
 </div>
@@ -39,14 +44,27 @@ $(document).ready(function() {
   var termB = 0;
   var response;
 
+  $("#problemForm").submit(function(event) {
+    val = $("#answerInput").val();
+    respond(val);
+      setTimeout(function() {
+        $("#answerInput").removeClass("incorrect");
+        $("#answerInput").removeClass("correct");
+        $("#answerInput").focus();
+        $("#answerInput").select();
+      }, 800);
+    return false;
+  });
+
   function showProblem() {
     termA = getRandomInt(0, 20);
     termB = getRandomInt(0, 20 - termA);
     $("#termA").text(termA);
     $("#termB").text(termB);
-    $("#answer").text("__");
-    $("#answer").removeClass("incorrect");
-    $("#answer").removeClass("correct");
+    $("#answerInput").val("");
+    $("#answerInput").removeClass("incorrect");
+    $("#answerInput").removeClass("correct");
+    $("#answerInput").focus();
   }
   showProblem();
 
@@ -72,14 +90,14 @@ $(document).ready(function() {
     makeButton(i);
   }
   function respond(val) {
-    $("#answer").text(val);
+    $("#answerInput").val(val);
     if (termA + termB == val) {
-      $("#answer").removeClass("incorrect");
-      $("#answer").addClass("correct");
+      $("#answerInput").removeClass("incorrect");
+      $("#answerInput").addClass("correct");
       setTimeout(showProblem, 800);
     } else {
-      $("#answer").removeClass("correct");
-      $("#answer").addClass("incorrect");
+      $("#answerInput").removeClass("correct");
+      $("#answerInput").addClass("incorrect");
     }
   }
 
