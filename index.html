@@ -4,12 +4,84 @@
 <meta charset="utf-8">
 <title>Math Facts</title>
 <style>
+.response {
+  font-size: 5em;
+  margin: 10px;
+}
+#problem {
+  font-size: 7em;
+  text-align: center;
+}
+.incorrect {
+  color: red;
+}
+.correct {
+  color: green;
+}
 </style>
 </head>
 <body>
+<div id="problem">
+  <span id="termA"><i>a</i></span>
+  +
+  <span id="termB"><i>b</i></span>
+  =
+  <span id="answer"><i>__</i></span>
+</div>
+<br/>
+<div id="responses">
+</div>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script>
 $(document).ready(function() {
+
+  var termA = 0;
+  var termB = 0;
+  var response;
+
+  function showProblem() {
+    termA = getRandomInt(0, 20);
+    termB = getRandomInt(0, 20 - termA);
+    $("#termA").text(termA);
+    $("#termB").text(termB);
+    $("#answer").text("__");
+    $("#answer").removeClass("incorrect");
+    $("#answer").removeClass("correct");
+  }
+  showProblem();
+
+  function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+  function makeButton(val) {
+    var b = $('<button/>',
+    {
+      text: val,
+      click: function () { 
+        respond(val);
+      }
+      
+    });
+    b.addClass("response");
+    $("#responses").append(b); 
+  }
+  for (i = 0; i <= 20; i++) {
+    makeButton(i);
+  }
+  function respond(val) {
+    $("#answer").text(val);
+    if (termA + termB == val) {
+      $("#answer").removeClass("incorrect");
+      $("#answer").addClass("correct");
+      setTimeout(showProblem, 800);
+    } else {
+      $("#answer").removeClass("correct");
+      $("#answer").addClass("incorrect");
+    }
+  }
 
 });
 </script>
